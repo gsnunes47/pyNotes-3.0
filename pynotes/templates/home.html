@@ -8,5 +8,17 @@
 <body>
     <h1>pyNotes 3.0</h1>
     
+    <form>
+
+        {{form.csrf_token}}
+
+        {{form.login.label()}}
+        {{form.login()}}
+        {{form.senha.label()}}
+        {{form.senha()}}
+        {{form.botao_confirmacao()}}
+
+    </form>
+
 </body>
 </html>
