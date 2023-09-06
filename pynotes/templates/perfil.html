@@ -8,6 +8,18 @@
 <body>
     <h1>Perfil de {{user.username}}</h1>
 
+    <form method="POST">
+        {{form.crsf_token}}
+        {{form.texto.label()}}
+        {{form.texto()}}
+        {{form.botao_confirmacao()}}
+    </form>
+
+    {%for note in notes%}
+    <h2>{{user.username}}: {{note.nota}} - {{note.data_criacao}}</h2>
+    {% endfor %}
+
+    <br><br>
     <a href="{{url_for('logout')}}">Sair</a>
 
 </body>

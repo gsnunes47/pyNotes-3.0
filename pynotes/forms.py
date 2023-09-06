@@ -13,4 +13,8 @@ class SignIn(FlaskForm):
     login = StringField("Email", validators=[Email(), DataRequired()])
     senha = PasswordField("Senha", validators=[DataRequired()])
     botao_confirmacao = SubmitField("Login")
+
+class Note(FlaskForm):
+    texto = StringField("Escreva o que você esta pensando agora.", validators=[DataRequired()])
+    botao_confirmacao = SubmitField("Enviar")
     

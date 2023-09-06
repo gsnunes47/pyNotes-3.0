@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for
 from pynotes import app, bcrypt, database
-from pynotes.forms import SignIn, SignUp
-from pynotes.models import Usuario
+from pynotes.forms import SignIn, SignUp, Note
+from pynotes.models import Usuario, Nota
+from datetime import datetime
 from flask_login import login_required, login_user, logout_user, current_user
 
 @app.route('/', methods=['GET', 'POST'])
@@ -27,11 +28,16 @@ def cadastro():
         return redirect(url_for('perfil', id_usuario=user.id))
     return render_template('cadastro.html', form=form)
 
-@app.route('/perfil/<id_usuario>')
+@app.route('/perfil/<id_usuario>', methods=['GET', 'POST'])
 @login_required
 def perfil(id_usuario):
+    form = Note()
     user = Usuario.query.get(int(id_usuario))
-    return render_template("perfil.html", user=user)
+    if form.is_submitted():
+        note = Nota(nota=form.texto.data, id_usuario=user.id, data_criacao=datetime.utcnow())
+        database.session.add(note)
+        database.session.commit()
+    return render_template("perfil.html", user=user, form=form, notes=user.nota)
 
 @app.route('/logout')
 @login_required
