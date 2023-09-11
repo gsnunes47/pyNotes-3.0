@@ -44,3 +44,9 @@ def perfil(id_usuario):
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/feed')
+@login_required
+def feed():
+    notas = Nota.query.order_by(Nota.data_criacao).all()
+    return render_template('feed.html', notas=notas)
