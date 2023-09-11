@@ -8,9 +8,9 @@
 <body>
     
     {% for note in notas:%}
-
-        <h1>{{note.id_usuario}} - {{note.nota}}</h1><br><br>
-
+        <a href="{{ url_for('perfil', id_usuario=note.id_usuario)}}">   
+        <h1>{{user.query.get(note.id_usuario).username}} - {{note.nota}} - {{note.data_criacao}}</h1>
+        </a>
     {% endfor %}
 
 </body>

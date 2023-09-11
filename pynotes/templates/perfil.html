@@ -8,15 +8,18 @@
 <body>
     <h1>Perfil de {{user.username}}</h1>
 
+    {% if form %}
+
     <form method="POST">
         {{form.crsf_token}}
         {{form.texto.label()}}
         {{form.texto()}}
         {{form.botao_confirmacao()}}
     </form>
+    {% endif %}
 
     {%for note in notes%}
-    <h2>{{user.username}}: {{note.nota}} - {{note.data_criacao}}</h2>
+        <h2>{{user.username}}: {{note.nota}} - {{note.data_criacao}}</h2>
     {% endfor %}
 
     <br><br>

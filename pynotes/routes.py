@@ -31,13 +31,17 @@ def cadastro():
 @app.route('/perfil/<id_usuario>', methods=['GET', 'POST'])
 @login_required
 def perfil(id_usuario):
-    form = Note()
-    user = Usuario.query.get(int(id_usuario))
-    if form.is_submitted():
-        note = Nota(nota=form.texto.data, id_usuario=user.id, data_criacao=datetime.utcnow())
-        database.session.add(note)
-        database.session.commit()
-    return render_template("perfil.html", user=user, form=form, notes=user.nota)
+    if int(id_usuario) == int(current_user.id):
+        form = Note()
+        user = Usuario.query.get(int(id_usuario))
+        if form.is_submitted():
+            note = Nota(nota=form.texto.data, id_usuario=user.id, data_criacao=datetime.utcnow())
+            database.session.add(note)
+            database.session.commit()
+        return render_template("perfil.html", user=user, form=form, notes=user.nota)
+    else:
+        user = Usuario.query.get(int(id_usuario))
+        return render_template("perfil.html", user=user, form=None, notes=user.nota)
 
 @app.route('/logout')
 @login_required
@@ -49,4 +53,5 @@ def logout():
 @login_required
 def feed():
     notas = Nota.query.order_by(Nota.data_criacao).all()
-    return render_template('feed.html', notas=notas)
+    user = Usuario()
+    return render_template('feed.html', notas=notas, user=user)
